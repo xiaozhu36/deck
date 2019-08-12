@@ -272,9 +272,7 @@ export class Executions extends React.Component<IExecutionsProps, IExecutionsSta
   public render(): React.ReactElement<Executions> {
     const { app } = this.props;
     const { filtersExpanded, loading, sortFilter, tags, triggeringExecution, reloadingForFilters } = this.state;
-
     const hasPipelines = !!(get(app, 'executions.data', []).length || get(app, 'pipelineConfigs.data', []).length);
-
     if (!app.notFound) {
       if (!hasPipelines && !loading) {
         return (

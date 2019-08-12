@@ -140,7 +140,7 @@ module.exports = angular
             .then(command => {
               if (config.CloneServerGroupModal) {
                 // react
-                return config.CloneServerGroupModal.show({ title, application, command });
+                return config.CloneServerGroupModal.showaddCluster({ title, application, command });
               } else {
                 // angular
                 return $uibModal.open({

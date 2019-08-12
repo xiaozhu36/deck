@@ -151,9 +151,9 @@ export class PipelineRegistry {
   }
 
   private getCloudProvidersForStage(
-    type: IStageTypeConfig,
-    allStageTypes: IStageTypeConfig[],
-    accounts: IAccountDetails[],
+    type: IStageTypeConfig,//dangestage
+    allStageTypes: IStageTypeConfig[],//allstage
+    accounts: IAccountDetails[],//{}ducloudprovidert
   ): string[] {
     const providersFromAccounts = uniq(accounts.map(acc => acc.cloudProvider));
     let providersFromStage: string[] = [];
