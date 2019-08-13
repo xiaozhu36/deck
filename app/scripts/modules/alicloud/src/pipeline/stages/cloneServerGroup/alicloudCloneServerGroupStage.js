@@ -22,7 +22,7 @@ module.exports = angular
       ],
     });
   })
-  .controller('awsCloneServerGroupStageCtrl', [
+  .controller('alicloudCloneServerGroupStageCtrl', [
     '$scope',
     function($scope) {
       let stage = $scope.stage;
@@ -47,7 +47,7 @@ module.exports = angular
         $scope.application.attributes.platformHealthOnlyShowOverride &&
         $scope.application.attributes.platformHealthOnly
       ) {
-        stage.interestingHealthProviderNames = ['AlibabaCloud'];
+        stage.interestingHealthProviderNames = ['AliBabaCloud'];
       }
 
       if (!stage.credentials && $scope.application.defaultCredentials.alicloud) {

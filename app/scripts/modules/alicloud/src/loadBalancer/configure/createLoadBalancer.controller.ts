@@ -368,7 +368,7 @@ angular
       };
 
       this.addListener = function() {
-        const un = { listenerProtocal: 'HTTP', healthCheck: 'on' };
+        const un = { listenerProtocal: 'HTTP', healthCheck: 'on', bandwidth: -1 };
         $scope.loadBalancer.listeners.push(un);
       };
       $scope.$watch(

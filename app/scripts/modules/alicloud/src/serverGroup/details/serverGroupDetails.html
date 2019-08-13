@@ -28,6 +28,7 @@
           Server Group Actions <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+          <li><a href ng-click="ctrl.rollbackServerGroup()">rollback</a></li>
           <li ng-if="!serverGroup.isDisabled"><a href ng-click="ctrl.resizeServerGroup()">Resize</a></li>
           <li><a href ng-show="!serverGroup.isDisabled" ng-click="ctrl.disableServerGroup()">Disable</a></li>
           <li><a href ng-show="serverGroup.isDisabled" ng-click="ctrl.enableServerGroup()">Enable</a></li>
@@ -71,7 +72,9 @@
         <dd>{{serverGroup.result.scalingGroup.vswitchId}}</dd>
         <dt>DefaultCooldown</dt>
         <dd>{{serverGroup.result.scalingGroup.defaultCooldown}}</dd>
-        <button ng-disabled="serverGroup.isDisabled" ng-click="ctrl.reScalingGroupServerGroup()">Edit ScalingGroup</button>
+        <button ng-disabled="serverGroup.isDisabled" ng-click="ctrl.reScalingGroupServerGroup()">
+          Edit ScalingGroup
+        </button>
       </dl>
     </collapsible-section>
 
@@ -101,7 +104,9 @@
         <dd>{{serverGroup.result.scalingConfiguration.scalingConfigurationId}}</dd>
         <dt>SecurityGroupId</dt>
         <dd>{{serverGroup.result.scalingConfiguration.securityGroupId}}</dd>
-        <button ng-disabled="serverGroup.isDisabled" ng-click="ctrl.updateSecurityGroupServerGroup()">Update SecurityGroup</button>
+        <button ng-disabled="serverGroup.isDisabled" ng-click="ctrl.updateSecurityGroupServerGroup()">
+          Update SecurityGroup
+        </button>
         <dt>ImageId</dt>
         <dd>{{serverGroup.result.scalingConfiguration.imageId}}</dd>
         <dt>InternetChargeType</dt>
@@ -109,7 +114,9 @@
         <dt>SpotStrategy</dt>
         <dd>{{serverGroup.result.scalingConfiguration.spotStrategy}}</dd>
         <dt ng-show="serverGroup.result.scalingConfiguration.spotStrategy=='SpotWithPriceLimit'">SpotPriceLimit</dt>
-        <dd ng-show="serverGroup.result.scalingConfiguration.spotStrategy=='SpotWithPriceLimit'">{{serverGroup.result.scalingConfiguration.spotPriceLimit[0].priceLimit}}</dd>
+        <dd ng-show="serverGroup.result.scalingConfiguration.spotStrategy=='SpotWithPriceLimit'">
+          {{serverGroup.result.scalingConfiguration.spotPriceLimit[0].priceLimit}}
+        </dd>
         <dt>InternetMaxBandwidthOut</dt>
         <dd>{{serverGroup.result.scalingConfiguration.internetMaxBandwidthOut}}</dd>
         <dt>InternetMaxBandwidthIn</dt>
@@ -118,7 +125,11 @@
     </collapsible-section>
 
     <collapsible-section heading="tag">
-      <dl ng-show="serverGroup.result.scalingConfiguration.tags!=[] || serverGroup.result.scalingConfiguration.tags!=null" ng-repeat = "item in serverGroup.result.scalingConfiguration.tags track by $index" class="dl-horizontal dl-flex">
+      <dl
+        ng-show="serverGroup.result.scalingConfiguration.tags!=[] || serverGroup.result.scalingConfiguration.tags!=null"
+        ng-repeat="item in serverGroup.result.scalingConfiguration.tags track by $index"
+        class="dl-horizontal dl-flex"
+      >
         <dt>{{item.key}}</dt>
         <dd>{{item.value}}</dd>
       </dl>
@@ -130,7 +141,9 @@
         <dd>{{serverGroup.result.scalingConfiguration.systemDiskCategory}}</dd>
         <dt>Size</dt>
         <dd>{{serverGroup.result.scalingConfiguration.systemDiskSize}}</dd>
-        <button ng-disabled="serverGroup.isDisabled" ng-click="ctrl.updateLaunchConfigServerGroup()">UpdateLaunchConfig</button>
+        <button ng-disabled="serverGroup.isDisabled" ng-click="ctrl.updateLaunchConfigServerGroup()">
+          UpdateLaunchConfig
+        </button>
       </dl>
     </collapsible-section>
 

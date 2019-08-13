@@ -1,5 +1,15 @@
-import {  module} from 'angular';
-import { Application, NameUtils, IServerGroupCommand, FirewallLabels, ISecurityGroup, ITask, IMoniker, IJob, TaskExecutor } from '@spinnaker/core'
+import { module } from 'angular';
+import {
+  Application,
+  NameUtils,
+  IServerGroupCommand,
+  FirewallLabels,
+  ISecurityGroup,
+  ITask,
+  IMoniker,
+  IJob,
+  TaskExecutor,
+} from '@spinnaker/core';
 import { ICapacity } from '../../../../core/src/serverGroup';
 import { IAsg, IEntityTags, IExecution, IInstance, IInstanceCounts } from '../../../../core/src/domain';
 
@@ -80,7 +90,6 @@ export interface IServerGroupJobs extends IJob {
 }
 
 export class ServerGroupWriters {
-
   public static $inject = ['serverGroupTransformer'];
   constructor(private serverGroupTransformer: any) {}
 
@@ -197,7 +206,7 @@ export class ServerGroupWriters {
     });
   }
 
-  public editServerGroups (
+  public editServerGroups(
     serverGroup: IServerGroup,
     application: Application,
     params: IServerGroupJobs = {},
@@ -206,9 +215,9 @@ export class ServerGroupWriters {
     params.asgName = serverGroup.name;
     params.scalingGroups = [
       {
-        'scalingGroupName' : serverGroup.name,
-        'region' : serverGroup.region
-      }
+        scalingGroupName: serverGroup.name,
+        region: serverGroup.region,
+      },
     ];
     params.defaultCooldown = serverGroup.result.scalingGroup.defaultCooldown;
     params.credentials = serverGroup.account;
@@ -259,10 +268,7 @@ export class ServerGroupWriters {
       description: `Update ${FirewallLabels.get('firewalls')} for ${serverGroup.name}`,
     });
   }
-  public updateLaunchConfigs(
-    serverGroup: IServerGroup,
-    application: Application,
-  ): ng.IPromise<ITask> {
+  public updateLaunchConfigs(serverGroup: IServerGroup, application: Application): ng.IPromise<ITask> {
     const job: IServerGroupJobs = {
       cloudProvider: serverGroup.type || serverGroup.provider,
       credentials: serverGroup.account,
@@ -290,7 +296,4 @@ export class ServerGroupWriters {
 }
 
 export const SERVER_GROUP_WRITER_ALI = 'spinnaker.alicloud.serverGroup.write.service';
-module(SERVER_GROUP_WRITER_ALI, []).service(
-  'serverGroupWriters',
-  ServerGroupWriters,
-);
+module(SERVER_GROUP_WRITER_ALI, []).service('serverGroupWriters', ServerGroupWriters);

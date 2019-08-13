@@ -1,8 +1,8 @@
 'use strict';
 
-const angular = require('angular');
 import * as _ from 'lodash';
 
+const angular = require('angular');
 import {
   CONFIRMATION_MODAL_SERVICE,
   ServerGroupReader,
@@ -12,9 +12,10 @@ import {
 } from '@spinnaker/core';
 import { ALICLOUD_SERVERGROUP_COMMSNDBUILDER } from '../configure/serverGroupCommandBuilder.service';
 import { ALICLOUD_DETAILS_RESIZE } from './resize/resizeServerGroup.controller';
-import { ALICLOUD_SERVERGROUP_DETAIL_SCLAINGGROUP  } from './reScalingGroup/reScalingGroupServerGroup.controller';
+import { ALICLOUD_SERVERGROUP_DETAIL_SCLAINGGROUP } from './reScalingGroup/reScalingGroupServerGroup.controller';
 import { ALICLOUD_SERVERGROUP_DETAIL_UPDATESECURITY } from './updateSecurityGroup/updateSecurityGroupServerGroup.controller';
 import { ALICLOUD_SERVERGROUP_DETAIL_UPDATELAUNCHCONFIG } from './updateLaunchConfig/updateLaunchConfigServerGroup.controller';
+import { ALICLOUD_DETAILS_ROLLBACK } from './rollback/rollbackServerGroup.controller';
 
 export const ALICLOUD_SERVERGROUP_DETAILSCTRL = 'spinnaker.alicloud.serverGroup.details.controller';
 angular
@@ -27,6 +28,7 @@ angular
     ALICLOUD_SERVERGROUP_DETAIL_UPDATELAUNCHCONFIG,
     CONFIRMATION_MODAL_SERVICE,
     SERVER_GROUP_WRITER,
+    ALICLOUD_DETAILS_ROLLBACK,
   ])
   .controller('alicloudServerGroupDetailsCtrl', [
     '$scope',
@@ -73,7 +75,7 @@ angular
                   summary = possibleServerGroup;
                   return true;
                 } else {
-                  return false
+                  return false;
                 }
               });
             }
@@ -180,8 +182,8 @@ angular
         };
         if ($scope.serverGroup.instanceCounts) {
           $scope.serverGroup.instanceCounts = {
-            'up': 1
-          }
+            up: 1,
+          };
         }
         const submitMethod = () => serverGroupWriter.disableServerGroup(serverGroups, app);
         const confirmationModalParams = {
@@ -195,14 +197,13 @@ angular
       };
 
       this.enableServerGroup = function enableServerGroup() {
-        $scope.serverGroup.scalingGroupName = $scope.serverGroup.serverGroupName
+        $scope.serverGroup.scalingGroupName = $scope.serverGroup.serverGroupName;
         const serverGroups = $scope.serverGroup;
         const taskMonitor = {
           application: app,
           title: 'Enabling ' + serverGroup.name,
         };
-        const submitMethod = (
-          params: any) => {
+        const submitMethod = (params: any) => {
           return serverGroupWriter.enableServerGroup(
             serverGroups,
             app,
@@ -227,6 +228,14 @@ angular
           controller: 'alicloudRollbackServerGroupCtrl as ctrl',
           resolve: {
             serverGroup: () => serverGroups,
+            disabledServerGroups: () => {
+              const cluster = _.find(app.clusters, {
+                name: serverGroups.cluster,
+                account: serverGroups.account,
+                serverGroups: [],
+              });
+              return _.filter(cluster.serverGroups, { isDisabled: true, region: serverGroups.region });
+            },
             application: () => app,
           },
         });

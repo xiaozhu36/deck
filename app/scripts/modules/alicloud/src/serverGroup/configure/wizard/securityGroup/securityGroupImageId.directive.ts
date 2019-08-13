@@ -3,7 +3,8 @@
 const angular = require('angular');
 import { API } from '@spinnaker/core';
 
-export const ALICLOUD_SERVERGROUP_IMAGEID = 'spinnaker.alicloud.serverGroup.configure.securityGroupSelector.imageIddirective';
+export const ALICLOUD_SERVERGROUP_IMAGEID =
+  'spinnaker.alicloud.serverGroup.configure.securityGroupSelector.imageIddirective';
 angular
   .module(ALICLOUD_SERVERGROUP_IMAGEID, [])
   .directive('alicloudSecurityImageIdDirective', function() {
@@ -27,44 +28,46 @@ angular
       $scope.isimage = false;
       $scope.loading = null;
       $scope.laybel = this.laybel;
+      $scope.imageName = null;
       $scope.searchImages = null;
 
       this.setfocus = function(event: any) {
         $scope.isimage = true;
         event = event || window.event;
-        event.stopPropagation()
+        event.stopPropagation();
       };
 
-      $(document).on('click', function () {
+      $(document).on('click', function() {
         $scope.isimage = false;
-        $scope.$apply()
+        $scope.$apply();
       });
 
-      const myDiv = document.getElementById('enquiry_contact' );
-      myDiv.addEventListener('click', function (event: any) {
+      const myDiv = document.getElementById('enquiry_contact');
+      myDiv.addEventListener('click', function(event: any) {
         $scope.isimage = true;
         event = event || window.event;
-        event.stopPropagation()
+        event.stopPropagation();
       });
 
       this.getfocus = function(event: any) {
         $scope.isimage = true;
         event = event || window.event;
-        event.stopPropagation()
+        event.stopPropagation();
       };
 
       this.searchImage = function(images: any, event: any) {
+        $scope.imageName = images.imageName;
         if (this.command.scalingConfigurations) {
-          this.command.scalingConfigurations.imageId = images;
+          this.command.scalingConfigurations.imageId = images.attributes.imageId;
         } else {
-          this.command.scalingConfiguration.imageId = images;
+          this.command.scalingConfiguration.imageId = images.attributes.imageId;
         }
         $scope.isimage = false;
         event = event || window.event;
-        event.stopPropagation()
+        event.stopPropagation();
       };
 
-      $scope.$watch('searchImages', function (newVal: any) {
+      $scope.$watch('searchImages', function(newVal: any) {
         if (newVal) {
           $scope.loading = false;
           API.one('images/find?provider=alicloud')
@@ -72,14 +75,9 @@ angular
             .get()
             .then(function(images: any) {
               $scope.loading = true;
-              const imagesval = images.map((item: any) => {
-                return item.imageName
-              });
-              $scope.ImageId = Array.from(new Set(imagesval))
-            })
+              $scope.ImageId = images;
+            });
         }
       });
-
     },
   ]);
-

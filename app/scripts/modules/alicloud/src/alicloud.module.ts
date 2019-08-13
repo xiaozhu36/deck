@@ -43,6 +43,7 @@ module(ALICLOUD_MODULE, [
   require('./pipeline/stages/findImageFromTags/alicloudFindImageFromTagsStage').name,
   require('./pipeline/stages/disableCluster/alicloudDisableClusterStage').name,
   require('./pipeline/stages/rollbackCluster/alicloudRollbackClusterStage').name,
+  require('./pipeline/stages/cloneServerGroup/alicloudCloneServerGroupStage').name,
 
   ALICLOUD_SECURITY_READER,
   ALICLOUD_SECURITY_TRANSFORMER,

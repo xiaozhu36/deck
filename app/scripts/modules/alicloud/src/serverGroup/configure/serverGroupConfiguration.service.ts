@@ -54,14 +54,14 @@ angular
         };
       }
 
-      function configureCommand( application: any, command: any) {
+      function configureCommand(application: any, command: any) {
         return $q
           .all({
             credentialsKeyedByAccount: AccountService.getCredentialsKeyedByAccount('alicloud'),
             securityGroups: securityGroupReader.loadSecurityGroups(),
-            // loadBalancers: loadBalancerReader.loadLoadBalancers(application.name),
-            // dataDiskTypes: $q.when(angular.copy(dataDiskTypes)),
-            // dataDiskCachingTypes: $q.when(angular.copy(dataDiskCachingTypes)),
+            loadBalancers: loadBalancerReader.loadLoadBalancers(application.name),
+            dataDiskTypes: $q.when(angular.copy(dataDiskTypes)),
+            dataDiskCachingTypes: $q.when(angular.copy(dataDiskCachingTypes)),
           })
           .then(function(backingData: any) {
             backingData.accounts = _.keys(backingData.credentialsKeyedByAccount);
@@ -95,16 +95,18 @@ angular
         }
         if (command.region) {
           regionalImages = command.backingData.packageImages
-          .filter(function(image: any) {
-            return image.amis && image.amis[command.region];
-          })
-          .map(function(image: any) {
-            return {
-              imageName: image.imageName,
-              ami: image.amis ? image.amis[command.region][0] : null,
-            };
-          });
-          if (command.amiName && !regionalImages.some(function(image: any) {
+            .filter(function(image: any) {
+              return image.amis && image.amis[command.region];
+            })
+            .map(function(image: any) {
+              return {
+                imageName: image.imageName,
+                ami: image.amis ? image.amis[command.region][0] : null,
+              };
+            });
+          if (
+            command.amiName &&
+            !regionalImages.some(function(image: any) {
               return image.imageName === command.amiName;
             })
           ) {
@@ -116,7 +118,7 @@ angular
         }
         command.backingData.filtered.images = regionalImages;
         return result;
-      };
+      }
 
       function configureZones(command: any) {
         const result: any = { dirty: {} };
@@ -274,9 +276,9 @@ angular
             };
             const nregion: any[] = [];
             regionsForAccount.regions.forEach((item: any) => {
-              nregion.push({ 'name': item })
+              nregion.push({ name: item });
             });
-            backingData.filtered.regions = nregion
+            backingData.filtered.regions = nregion;
             if (
               !_.chain(backingData.filtered.regions)
                 .some({

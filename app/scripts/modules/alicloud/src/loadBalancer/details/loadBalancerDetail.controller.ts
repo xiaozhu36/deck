@@ -70,7 +70,6 @@ angular
             if (details.length) {
               $scope.loadBalancer.elb = details[0];
               $scope.loadBalancer.account = loadBalancer.accountId;
-
             }
           });
         }
@@ -85,8 +84,6 @@ angular
         .ready()
         .then(extractLoadBalancer)
         .then(() => {
-          // If the user navigates away from the view before the initial extractLoadBalancer call completes,
-          // do not bother subscribing to the refresh
           if (!$scope.$$destroyed) {
             app.onRefresh($scope, extractLoadBalancer);
           }
