@@ -1,5 +1,4 @@
 <div class="modal-body">
-
   <div class="form-group">
     <div
       class="col-md-12 well"
@@ -16,24 +15,14 @@
       <help-field key="alicloud.securityGroup.stack"></help-field>
     </div>
     <div class="col-md-2">
-      <input
-        type="text"
-        class="form-control input-sm"
-        name="stack"
-        ng-model="securityGroup.stack"
-      />
+      <input type="text" class="form-control input-sm" name="stack" ng-model="securityGroup.stack" />
     </div>
     <div class="col-md-6 form-inline">
       <div class="col-md-4 sm-label-right">
         Detail
         <help-field key="alicloud.securityGroup.detail"></help-field>
       </div>
-      <input
-        type="text"
-        class="form-control input-sm"
-        ng-model="securityGroup.detail"
-        ng-change="ctrl.updateName()"
-      />
+      <input type="text" class="form-control input-sm" ng-model="securityGroup.detail" ng-change="ctrl.updateName()" />
     </div>
   </div>
 
@@ -80,9 +69,11 @@
         ng-model="securityGroup.vpcId"
         on-select="ctrl.selectedSubnetChanged($item)"
       >
-        <ui-select-match placeholder="Select from existing subnets">{{$select.selected.vpcId}}</ui-select-match>
+        <ui-select-match placeholder="Select from existing subnets"
+          >{{securityGroup.vpcId}}/{{securityGroup.vpcName}}</ui-select-match
+        >
         <ui-select-choices repeat="selectSubnet in ctrl.selectedVnets | filter: $select.search">
-          <span ng-bind-html="selectSubnet.vpcId | highlight: $select.search"></span>
+          <span ng-bind-html="selectSubnet.vpcId+'/'+selectSubnet.vpcName"></span>
         </ui-select-choices>
       </ui-select>
     </div>

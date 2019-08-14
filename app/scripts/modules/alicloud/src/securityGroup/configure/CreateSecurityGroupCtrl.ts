@@ -8,10 +8,7 @@ import { ALICLOUD_SECURITY_WRITE_SERVICE } from '../securityGroup.write.service'
 
 export const ALICLOUD_SECURITY_CREATECTRL = 'spinnaker.alicloud.securityGroup.create.controller';
 angular
-  .module(ALICLOUD_SECURITY_CREATECTRL, [
-    require('@uirouter/angularjs').default,
-    ALICLOUD_SECURITY_WRITE_SERVICE,
-  ])
+  .module(ALICLOUD_SECURITY_CREATECTRL, [require('@uirouter/angularjs').default, ALICLOUD_SECURITY_WRITE_SERVICE])
 
   .controller('alicloudCreateSecurityGroupCtrl', [
     '$scope',
@@ -21,7 +18,15 @@ angular
     'application',
     'securityGroup',
     'alicloudSecurityGroupWriter',
-    function($scope: any, $uibModalInstance: any, $state: any, _$controller: any, application: any, securityGroup: any, alicloudSecurityGroupWriter: any) {
+    function(
+      $scope: any,
+      $uibModalInstance: any,
+      $state: any,
+      _$controller: any,
+      application: any,
+      securityGroup: any,
+      alicloudSecurityGroupWriter: any,
+    ) {
       $scope.pages = {
         location: require('./createSecurityGroupProperties.html'),
         ingress: require('./createSecurityGroupIngress.html'),
@@ -86,7 +91,9 @@ angular
       ctrl.accountUpdated = function() {
         AccountService.getRegionsForAccount($scope.securityGroup.credentials).then(function(regions: any) {
           const region: any[] = [];
-          regions.forEach((item: any): void => {region.push({ 'name': item })});
+          regions.forEach((item: any): void => {
+            region.push({ name: item });
+          });
           $scope.regions = region;
           ctrl.updateName();
           ctrl.regionUpdated();
@@ -104,13 +111,15 @@ angular
         $scope.securityGroup.vnet = null;
         $scope.securityGroup.vnetResourceGroup = null;
         ctrl.selectedVnets = [];
-        API.one('subnets/alicloud').getList().then((vnets: any) => {
+        API.one('subnets/alicloud')
+          .getList()
+          .then((vnets: any) => {
             vnets.forEach((vnet: any) => {
               if (vnet.account === account && vnet.region === region) {
                 ctrl.selectedVnets.push(vnet);
               }
             });
-        });
+          });
         ctrl.subnetUpdated();
       };
 
@@ -133,6 +142,11 @@ angular
         }
       };
 
+      ctrl.selectedSubnetChanged = function(subnet: any) {
+        $scope.securityGroup.vpcName = subnet.vpcName;
+        $scope.securityGroup.vpcId = subnet.vpcId;
+      };
+
       ctrl.cancel = function() {
         $uibModalInstance.dismiss();
       };
@@ -153,14 +167,14 @@ angular
           delete $scope.securityGroup.region;
         }
         $scope.securityGroup.securityGroupIngress.forEach((item: any) => {
-          item.portRange = item.startPortRange + '/' + item.endPortRange
+          item.portRange = item.startPortRange + '/' + item.endPortRange;
         });
         $scope.taskMonitor.submit(function() {
           const params = {
             cloudProvider: 'alicloud',
             appName: application.name,
             vpcId: $scope.securityGroup.vpcId.vpcId || null,
-            subnet: $scope.securityGroup.vpcId.vswitchId || null
+            subnet: $scope.securityGroup.vpcId.vswitchId || null,
           };
 
           if ($scope.securityGroup.selectedVnet) {
@@ -223,12 +237,12 @@ angular
 
       ctrl.maxSizePattern = function(rule: any) {
         if (rule.startPortRange >= rule.endPortRange) {
-          rule.startPortRange = null
+          rule.startPortRange = null;
         }
       };
       ctrl.minSizePattern = function(rule: any) {
         if (rule.startPortRange <= rule.endPortRange) {
-          rule.endPortRange = null
+          rule.endPortRange = null;
         }
       };
 
@@ -252,7 +266,7 @@ angular
         if (index === ruleset.length - 1) {
           return;
         } else {
-          swapRules(ruleset, index, index + 1)
+          swapRules(ruleset, index, index + 1);
         }
       };
 

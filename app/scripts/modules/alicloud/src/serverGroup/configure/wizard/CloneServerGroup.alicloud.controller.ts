@@ -82,7 +82,7 @@ angular
         loaded: false,
         // requiresTemplateSelection: !!serverGroupCommand.viewState.requiresTemplateSelection,
       };
-      AccountService.getRegionsForAccount('ali-account').then(function(regions: any) {
+      AccountService.getRegionsForAccount(`${$scope.command.credentials}`).then(function(regions: any) {
         const regionsl: any[] = [];
         regions.forEach((item: any) => {
           regionsl.push({ name: item });

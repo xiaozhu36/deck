@@ -13,10 +13,7 @@ import {
 
 export const ALICLOUD_SECURITY_BASECONFIGCTRL = 'spinnaker.alicloud.securityGroup.baseConfig.controller';
 angular
-  .module(ALICLOUD_SECURITY_BASECONFIGCTRL, [
-    require('@uirouter/angularjs').default,
-    SECURITY_GROUP_READER,
-  ])
+  .module(ALICLOUD_SECURITY_BASECONFIGCTRL, [require('@uirouter/angularjs').default, SECURITY_GROUP_READER])
   .controller('alicloudConfigSecurityGroupMixin', [
     '$scope',
     '$state',
@@ -37,9 +34,7 @@ angular
       cacheInitializer: any,
     ) {
       const ctrl = this;
-
       $scope.isNew = true;
-
       $scope.state = {
         submitting: false,
         refreshingSecurityGroups: false,
@@ -231,6 +226,12 @@ angular
           startPort: 7001,
           endPort: 7001,
         });
+      };
+
+      ctrl.selectedSubnetChanged = function(subnet: any) {
+        $scope.command.vSwitchId = subnet.vswitchId;
+        $scope.command.vSwitchName = subnet.vswitchName;
+        $scope.command.vpcId = subnet.vpcId;
       };
 
       ctrl.removeRule = function(ruleset: any, index: number) {
