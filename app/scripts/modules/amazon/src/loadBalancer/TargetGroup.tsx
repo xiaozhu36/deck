@@ -7,7 +7,6 @@ import { HealthCounts, LoadBalancerInstances, LoadBalancerServerGroup } from '@s
 import { IAmazonApplicationLoadBalancer, ITargetGroup } from 'amazon/domain/IAmazonLoadBalancer';
 
 import './targetGroup.less';
-import { ITitusTargetTrackingPolicy } from '../../../titus/src/serverGroup/details/scalingPolicy/targetTracking/upsertTargetTracking.controller';
 
 export interface ITargetGroupProps {
   loadBalancer: IAmazonApplicationLoadBalancer;
@@ -59,4 +58,3 @@ export class TargetGroup extends React.Component<ITargetGroupProps> {
     );
   }
 }
-

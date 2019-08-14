@@ -5,7 +5,7 @@ const angular = require('angular');
 import { AccountService, Registry, StageConstants } from '@spinnaker/core';
 
 module.exports = angular
-  .module('spinnaker.amazon.pipeline.stage.resizeAsgStage', [])
+  .module('spinnaker.amazon.pipeline.stage.aws.resizeAsgStage', [])
   .config(function() {
     Registry.pipeline.registerStage({
       provides: 'resizeServerGroup',

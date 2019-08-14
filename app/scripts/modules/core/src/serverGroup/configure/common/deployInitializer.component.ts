@@ -125,8 +125,7 @@ export class DeployInitializerController implements IController {
       this.selectedTemplate === this.noTemplate
         ? this.buildEmptyCommand()
         : this.buildCommandFromTemplate(this.selectedTemplate.serverGroup);
-    return buildCommand.then((command: any) =>
-      this.applyCommandToScope(command));
+    return buildCommand.then((command: any) => this.applyCommandToScope(command));
   }
 
   public useTemplate(): void {

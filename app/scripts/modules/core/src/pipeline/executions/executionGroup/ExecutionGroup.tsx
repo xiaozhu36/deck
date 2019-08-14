@@ -168,6 +168,7 @@ export class ExecutionGroup extends React.PureComponent<IExecutionGroupProps, IE
       }
     });
     this.stateChangeSuccessSubscription = stateEvents.stateChangeSuccess.subscribe(() => {
+      // If the heading is collapsed, but we've clicked on a link to an execution in this group, expand the group
       const showingDetails = this.isShowingDetails();
       if (this.isShowingDetails() && !this.state.open) {
         this.toggle();

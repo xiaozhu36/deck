@@ -47,7 +47,7 @@ module.exports = angular
         $scope.application.attributes.platformHealthOnlyShowOverride &&
         $scope.application.attributes.platformHealthOnly
       ) {
-        stage.interestingHealthProviderNames = ['AliBabaCloud'];
+        stage.interestingHealthProviderNames = ['AlibabaCloud'];
       }
 
       if (!stage.credentials && $scope.application.defaultCredentials.alicloud) {
