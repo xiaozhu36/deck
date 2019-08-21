@@ -81,7 +81,7 @@
       </div>
     </div>
   </div>
-  <stage-config-field label="Traffic" help-key="aws.serverGroup.traffic">
+  <stage-config-field label="Traffic" help-key="alicloud.serverGroup.traffic">
     <div class="checkbox">
       <label>
         <input
@@ -104,7 +104,6 @@
             name="blockDeviceMappingsSource"
           />
           Copy from current server group
-          <help-field key="aws.blockDeviceMappings.useSource"></help-field>
         </label>
       </div>
       <div>
@@ -116,7 +115,7 @@
             name="blockDeviceMappingsSource"
           />
           Prefer AMI block device mappings
-          <help-field key="aws.blockDeviceMappings.useAMI"></help-field>
+          <help-field key="alicloud.blockDeviceMappings.useAMI"></help-field>
         </label>
       </div>
       <div>
@@ -128,12 +127,11 @@
             name="blockDeviceMappingsSource"
           />
           Defaults for selected instance type
-          <help-field key="aws.blockDeviceMappings.useDefaults"></help-field>
         </label>
       </div>
     </div>
   </stage-config-field>
-  <stage-platform-health-override application="application" stage="stage" platform-health-type="'Amazon'">
+  <stage-platform-health-override application="application" stage="stage" platform-health-type="'AlibabaCloud'">
   </stage-platform-health-override>
   <deployment-strategy-selector field-columns="6" command="stage"></deployment-strategy-selector>
 </div>

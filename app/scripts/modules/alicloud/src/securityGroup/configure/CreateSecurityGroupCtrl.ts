@@ -155,7 +155,7 @@ angular
         const securityGroups: any = $scope.securityGroup;
         let name: string = application.name;
         if (securityGroups.detail) {
-          name += '-' + securityGroups.detail;
+          name += '-' + securityGroups.stack + '-' + securityGroups.detail;
         }
         securityGroups.name = name;
         $scope.namePreview = name;

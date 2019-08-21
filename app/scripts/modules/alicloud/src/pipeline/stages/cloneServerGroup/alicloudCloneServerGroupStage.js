@@ -57,7 +57,7 @@ module.exports = angular
       if (stage.isNew) {
         stage.useAmiBlockDeviceMappings = _.get(
           $scope,
-          'application.attributes.providerSettings.aws.useAmiBlockDeviceMappings',
+          'application.attributes.providerSettings.alicloud.useAmiBlockDeviceMappings',
           false,
         );
         stage.copySourceCustomBlockDeviceMappings = false; // default to using block device mappings from current instance type

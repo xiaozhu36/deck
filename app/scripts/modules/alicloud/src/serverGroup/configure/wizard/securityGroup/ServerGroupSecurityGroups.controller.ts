@@ -43,6 +43,8 @@ angular
 
       this.securityGroupChanged = function(securityGroup: any) {
         $scope.command.securityGroupName = securityGroup.id;
+        $scope.command.scalingConfigurations.securityGroupId = securityGroup.id;
+        $scope.command.scalingConfigurations.securityGroupName = securityGroup.name;
         ModalWizard.markComplete('security-groups');
       };
 
@@ -58,7 +60,7 @@ angular
               firevallsValue.forEach((item: any) => {
                 if ($scope.command.vpcId) {
                   if ($scope.command.vpcId === item.vpcId) {
-                    val.push(item.id);
+                    val.push({ id: item.id, name: item.name });
                   }
                 }
               });

@@ -70,7 +70,7 @@ module(ALICLOUD_MODULE, [
   CloudProviderRegistry.registerProvider('alicloud', {
     name: 'AlibabaCloud',
     logo: {
-      path: require('./logo/Alibaba.png'),
+      path: require('./logo/alicloud.png'),
     },
     image: {
       reader: 'alicloudImageReader',

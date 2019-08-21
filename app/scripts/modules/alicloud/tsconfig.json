@@ -1,4 +1,3 @@
-
 {
   "buildOnSave": false,
   "compileOnSave": true,
@@ -30,6 +29,8 @@
     "target": "es6",
     "typeRoots": ["../../../../node_modules/@types"],
     "paths": {
+      "@spinnaker/core": ["../../core/lib"],
+      "core/*": ["../../core/lib/*"],
       "@spinnaker/alicloud": ["../../alicloud/lib"],
       "alicloud/*": ["../../alicloud/lib/*"]
     }

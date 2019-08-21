@@ -51,7 +51,7 @@ module.exports = {
     extensions: ['.json', '.js', '.jsx', '.ts', '.tsx', '.css', '.less', '.html'],
     modules: [NODE_MODULE_PATH, path.resolve('.')],
     alias: {
-      '@spinnaker/core': path.resolve(basePath, 'app', 'scripts', 'modules', 'core', 'src'),
+      '@spinnaker/alicloud': path.resolve(basePath, 'app', 'scripts', 'modules', 'core', 'src'),
       coreImports: path.resolve(
         basePath,
         'app',

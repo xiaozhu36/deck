@@ -30,7 +30,7 @@ angular
             Object.values(firwalls)[index].forEach((item: any) => {
               if ($scope.serverGroup.result.scalingGroup.vpcId) {
                 if ($scope.serverGroup.result.scalingGroup.vpcId === item.vpcId) {
-                  val.push(item.id);
+                  val.push({ id: item.id, name: item.name });
                 }
               }
             });
@@ -39,7 +39,7 @@ angular
             firwalls[fvalue].forEach((item: any) => {
               if ($scope.serverGroup.result.scalingGroup.vpcId) {
                 if ($scope.serverGroup.result.scalingGroup.vpcId === item.vpcId) {
-                  val.push(item.id);
+                  val.push({ id: item.id, name: item.name });
                 }
               }
             });
@@ -48,6 +48,12 @@ angular
         });
 
       $scope.command = { securityGroupId: $scope.serverGroup.result.scalingConfiguration.securityGroupId };
+
+      this.securityGroupChanged = function(securityGroup: any) {
+        $scope.serverGroup.securityGroupName = securityGroup.id;
+        $scope.serverGroup.result.scalingConfiguration.securityGroupId = securityGroup.id;
+        $scope.serverGroup.result.scalingConfiguration.securityGroupName = securityGroup.name;
+      };
 
       this.isValid = function() {
         if ($scope.command.securityGroupId !== $scope.serverGroup.result.scalingConfiguration.securityGroupId) {

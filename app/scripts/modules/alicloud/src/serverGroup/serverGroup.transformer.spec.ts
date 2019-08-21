@@ -4,10 +4,10 @@ import { mock } from 'angular';
 describe('alicloudServerGroupTransformer', function() {
   let transformer: any;
 
-  beforeEach( mock.module (ALICLOUD_SERVERGROUP_TRANSFORMER) );
+  beforeEach(mock.module(ALICLOUD_SERVERGROUP_TRANSFORMER));
 
   beforeEach(function() {
-    mock.inject(function( _alicloudServerGroupTransformer_: any ) {
+    mock.inject(function(_alicloudServerGroupTransformer_: any) {
       transformer = _alicloudServerGroupTransformer_;
     });
   });
@@ -27,6 +27,9 @@ describe('alicloudServerGroupTransformer', function() {
         },
         viewState: {
           mode: 'create',
+        },
+        scalingConfigurations: {
+          tags: {},
         },
       };
 
@@ -50,6 +53,9 @@ describe('alicloudServerGroupTransformer', function() {
         },
         viewState: {
           mode: 'create',
+        },
+        scalingConfigurations: {
+          tags: {},
         },
       };
 
@@ -98,6 +104,9 @@ describe('alicloudServerGroupTransformer', function() {
         viewState: {
           mode: 'create',
         },
+        scalingConfigurations: {
+          tags: {},
+        },
       };
 
       const transformed = transformer.convertServerGroupCommandToDeployConfiguration(command);
@@ -129,6 +138,9 @@ describe('alicloudServerGroupTransformer', function() {
           fileUris: 'file1',
           commandToExecute: 'do_this',
         },
+        scalingConfigurations: {
+          tags: {},
+        },
       };
 
       const customScript = {
@@ -158,6 +170,9 @@ describe('alicloudServerGroupTransformer', function() {
         viewState: {
           mode: 'create',
         },
+        scalingConfigurations: {
+          tags: {},
+        },
       };
 
       const transformed = transformer.convertServerGroupCommandToDeployConfiguration(command);
@@ -186,6 +201,9 @@ describe('alicloudServerGroupTransformer', function() {
         viewState: {
           mode: 'create',
         },
+        scalingConfigurations: {
+          tags: {},
+        },
       };
 
       const transformed = transformer.convertServerGroupCommandToDeployConfiguration(command);
@@ -213,6 +231,9 @@ describe('alicloudServerGroupTransformer', function() {
         viewState: {
           mode: 'create',
         },
+        scalingConfigurations: {
+          tags: {},
+        },
       };
 
       const transformed = transformer.convertServerGroupCommandToDeployConfiguration(command);
@@ -236,6 +257,9 @@ describe('alicloudServerGroupTransformer', function() {
         },
         viewState: {
           mode: 'create',
+        },
+        scalingConfigurations: {
+          tags: {},
         },
         instanceTags: imap,
       };

@@ -29,6 +29,10 @@ const helpContents: { [key: string]: string } = {
   'alicloud.serverGroup.Disksize': '(Required) <b>Disksize</b> is SystemDisk.Size.',
   'alicloud.securityGroup.stack':
     '(Required) <b>Stack</b> is one of the core naming components of a securityGroup, used to create vertical stacks of dependent services for integration testing.',
+  'alicloud.serverGroup.traffic': `<p>Enables the "AddToLoadBalancer" scaling process, which is used by Spinnaker and discovery services to determine if the server group is enabled.</p>
+     <p>Will be automatically enabled when any non "custom" deployment strategy is selected.</p>`,
+  'alicloud.blockDeviceMappings.useAMI':
+    '<p>Spinnaker will use the block device mappings from the selected AMI when deploying a new server group.</p>',
   'alicloud.securityGroup.detail':
     '(Required) <b>Detail</b> is a naming component to help distinguish specifics of the securityGroup.',
   'alicloud.serverGroup.scriptLocation':

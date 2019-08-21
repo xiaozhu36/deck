@@ -19,7 +19,7 @@ fi
 
 if [ -z "$_API_HOST" ];
 then
-    _API_HOST=http://localhost:8084
+    _API_HOST=http://47.74.181.63:8084
 fi
 
 if [ -z "$_DECK_CERT_PATH" ];

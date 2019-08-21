@@ -196,6 +196,57 @@ angular
         confirmationModalService.confirm(confirmationModalParams);
       };
 
+      this.cloneServerGroup = function cloneServerGroup() {
+        $scope.serverGroup.scalingGroupName = $scope.serverGroup.serverGroupName;
+        $scope.serverGroup.application = $scope.serverGroup.result.application;
+        $scope.serverGroup.credentials = $scope.serverGroup.result.account;
+        $scope.serverGroup.region = $scope.serverGroup.result.regionId;
+        $scope.serverGroup.scalingGroupName = $scope.serverGroup.moniker.cluster;
+        $scope.serverGroup.name = $scope.serverGroup.moniker.cluster;
+        $scope.serverGroup.minSize = $scope.serverGroup.capacity.min;
+        $scope.serverGroup.maxSize = $scope.serverGroup.capacity.max;
+        $scope.serverGroup.defaultCooldown = $scope.serverGroup.result.scalingGroup.defaultCooldown;
+        $scope.serverGroup.cloudProvider = $scope.serverGroup.result.provider;
+        $scope.serverGroup.selectedProvider = $scope.serverGroup.result.provider;
+        $scope.serverGroup.loadBalancerIds = $scope.serverGroup.result.scalingGroup.loadBalancerIds;
+        $scope.serverGroup.freeFormDetails = $scope.serverGroup.detail;
+        $scope.serverGroup.viewState = {
+          mode: 'create',
+        };
+        $scope.serverGroup.source = {
+          asgName: $scope.serverGroup.moniker.cluster,
+        };
+        $scope.serverGroup.vSwitchId = $scope.serverGroup.result.scalingGroup.vswitchId;
+        $scope.serverGroup.vSwitchName = $scope.serverGroup.result.scalingGroup.vswitchName;
+        $scope.serverGroup.systemDiskCategory = $scope.serverGroup.result.scalingConfiguration.systemDiskCategory;
+        $scope.serverGroup.systemDiskSize = $scope.serverGroup.result.scalingConfiguration.systemDiskSize;
+        $scope.serverGroup.scalingConfigurations = $scope.serverGroup.result.scalingConfiguration;
+        const tags: any = {};
+        $scope.serverGroup.scalingConfigurations.tags = $scope.serverGroup.scalingConfigurations.tags.map(
+          (item: any) => {
+            const key: string = item.key;
+            tags[key] = item.value;
+            return tags;
+          },
+        );
+        $scope.serverGroup.scalingConfigurations.multiAZPolicy = $scope.serverGroup.result.scalingGroup.multiAZPolicy;
+        $scope.serverGroup.scalingConfigurations.scalingPolicy = $scope.serverGroup.result.scalingGroup.scalingPolicy;
+        const serverGroups = $scope.serverGroup;
+        const taskMonitor = {
+          application: app,
+          title: 'Clone ' + serverGroup.name,
+        };
+        const submitMethod = () => serverGroupWriter.cloneServerGroup(serverGroups, app);
+        const confirmationModalParams = {
+          header: 'Really clone ' + serverGroup.name + '?',
+          buttonText: 'Clone ' + serverGroup.name,
+          account: serverGroup.account,
+          taskMonitorConfig: taskMonitor,
+          submitMethod: submitMethod,
+        };
+        confirmationModalService.confirm(confirmationModalParams);
+      };
+
       this.enableServerGroup = function enableServerGroup() {
         $scope.serverGroup.scalingGroupName = $scope.serverGroup.serverGroupName;
         const serverGroups = $scope.serverGroup;
@@ -285,20 +336,6 @@ angular
           resolve: {
             serverGroup: () => serverGroups,
             application: () => app,
-          },
-        });
-      };
-
-      this.cloneServerGroup = () => {
-        $uibModal.open({
-          templateUrl: require('../configure/wizard/serverGroupWizard.html'),
-          controller: 'alicloudCloneServerGroupCtrl as ctrl',
-          size: 'lg',
-          resolve: {
-            title: () => 'Clone ' + serverGroup.name,
-            application: () => app,
-            serverGroupCommand: () =>
-              alicloudServerGroupCommandBuilder.buildServerGroupCommandFromExisting(app, serverGroup),
           },
         });
       };

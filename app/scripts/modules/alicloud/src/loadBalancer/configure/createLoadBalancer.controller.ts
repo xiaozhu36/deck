@@ -265,9 +265,11 @@ angular
 
       this.accountUpdated = function() {
         AccountService.getRegionsForAccount($scope.loadBalancer.credentials).then(function(regions: any) {
+          const Region: any = [];
           regions.forEach((item: any) => {
-            $scope.regions.push({ name: item });
+            Region.push({ name: item });
           });
+          $scope.regions = Region;
           ctrl.regions = $scope.regions;
           ctrl.regionUpdated();
         });
