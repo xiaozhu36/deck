@@ -14,37 +14,39 @@ angular
       ModalWizard.markClean('load-balancers');
 
       function loadVnetSubnets() {
-        loadBalancerReader.getLoadBalancerDetails('alicloud', $scope.command.credentials, $scope.command.region, $scope.command.application)
+        loadBalancerReader
+          .getLoadBalancerDetails(
+            'alicloud',
+            $scope.command.credentials,
+            $scope.command.region,
+            $scope.command.application,
+          )
           .then(function(LBs: any) {
             $scope.command.loadBalancers = LBs.map((item: any) => {
-              if ($scope.command.vpcId === item.vpcId) {
-                return item.loadBalancerId
+              if ($scope.command.vpcId === item.result.vpcId) {
+                return item.result.loadBalancerId;
               }
-            })
+            });
             $scope.command.selectedVnetSubnets = LBs.map((item: any) => {
-              return item.vpcId
-            })
+              return item.result.vpcId;
+            });
           });
       }
 
-      if ($scope.command.credentials && $scope.command.region ) {
+      if ($scope.command.credentials && $scope.command.region) {
         $scope.command.viewState.networkSettingsConfigured = true;
         $scope.command.selectedVnetSubnets = [];
       }
 
-      $scope.$watch('command.vSwitchId', function (newVal: any) {
+      $scope.$watch('command.vSwitchId', function(newVal: any) {
         if (newVal) {
           loadVnetSubnets();
         }
-      })
+      });
 
       this.loadBalancerChanged = function(item: any) {
         $scope.command.viewState.networkSettingsConfigured = true;
-        ModalWizard.markComplete('load-balancers');
-        $scope.command.selectedVnetSubnets = [];
-        $scope.command.selectedSubnet = null;
-        $scope.command.newloadBalancerIds = '[' + "'" + item + "'" + ']'
-        loadVnetSubnets();
+        $scope.command.loadBalancerIds = '[' + "'" + item + "'" + ']';
       };
     },
   ]);
