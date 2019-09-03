@@ -1,18 +1,19 @@
 'use strict';
+import { module } from 'angular';
 
 const angular = require('angular');
 
-export const ALICLOUD_SERVERGROUP_TRANSFORMER = 'spinnaker.alicloud.serverGroup.transformer';
-angular.module(ALICLOUD_SERVERGROUP_TRANSFORMER, []).factory('alicloudServerGroupTransformer', function() {
-  function normalizeServerGroup(serverGroup: any) {
+export class AlicloudServerGroupTransformer {
+  public normalizeServerGroup(serverGroup: any) {
     return serverGroup;
   }
-  function parseCustomScriptsSettings(command: any, configuration: any) {
+
+  public parseCustomScriptsSettings(command: any, configuration: any) {
     /*
-        At the first time this wizard pops up, the type of command.customScriptsSettings.fileUris is String. As for the following
-        occurrences of its pop up with this field unchanged, its type becomes an array. So here differentiate the two scenarios
-        to assign the correct value to model.
-      */
+      At the first time this wizard pops up, the type of command.customScriptsSettings.fileUris is String. As for the following
+      occurrences of its pop up with this field unchanged, its type becomes an array. So here differentiate the two scenarios
+      to assign the correct value to model.
+    */
     if (Array.isArray(command.customScriptsSettings.fileUris)) {
       configuration.customScriptsSettings.fileUris = command.customScriptsSettings.fileUris;
     } else {
@@ -31,13 +32,15 @@ angular.module(ALICLOUD_SERVERGROUP_TRANSFORMER, []).factory('alicloudServerGrou
     }
   }
 
-  function convertServerGroupCommandToDeployConfiguration(command: any) {
+  public convertServerGroupCommandToDeployConfiguration(command: any) {
     let tags: string = angular.toJson(command.scalingConfigurations.tags);
     if (Object.keys(command.scalingConfigurations.tags).length === 0) {
       tags = '';
     }
     const configuration: any = {
-      interestingHealthProviderNames: ['Alibabacloud'],
+      interestingHealthProviderNames: [
+        'Alibabacloud'
+      ],
       backingData: command.backingData,
       InstanceName: command.application,
       instancetype: command.instancetype,
@@ -46,6 +49,7 @@ angular.module(ALICLOUD_SERVERGROUP_TRANSFORMER, []).factory('alicloudServerGrou
       securityGroupId: command.securityGroupId,
       vSwitchId: command.vSwitchId,
       vSwitchName: command.vSwitchName,
+      vpcId: command.vpcId,
       name: command.application,
       scalingGroupName: command.application,
       cloudProvider: command.selectedProvider,
@@ -65,33 +69,29 @@ angular.module(ALICLOUD_SERVERGROUP_TRANSFORMER, []).factory('alicloudServerGrou
       defaultCooldown: command.defaultCooldown,
       loadBalancerIds: command.newloadBalancerIds,
       scalingPolicy: 'recycle',
-      scalingConfigurations: [
-        {
-          imageId: command.scalingConfigurations.imageId,
-          instanceType: command.scalingConfigurations.instanceType,
-          instanceTypes: command.scalingConfigurations.instanceTypes,
-          internetMaxBandwidthOut: command.scalingConfigurations.internetMaxBandwidthOut,
-          ramRoleName: command.scalingConfigurations.ramRoleName || null,
-          spotStrategy: command.scalingConfigurations.spotStrategy,
-          multiAZPolicy: command.scalingConfigurations.multiAZPolicy,
-          spotPriceLimit: command.scalingConfigurations.spotPriceLimit,
-          systemDiskCategory: command.systemDiskCategory,
-          systemDiskSize: command.systemDiskSize,
-          tags: tags,
-          spotPriceLimits: command.scalingConfigurations.spotPriceLimits || [],
-          loadBalancerWeight: command.scalingConfigurations.loadBalancerWeight,
-          password: command.scalingConfigurations.password,
-          securityGroupId: command.scalingConfigurations.securityGroupId,
-          internetChargeType: 'PayByTraffic',
-          keyPairName: command.scalingConfigurations.keyPairName,
-          dataDisks: [
-            {
-              category: command.systemDiskCategory,
-              size: command.systemDiskSize,
-            },
-          ],
-        },
-      ],
+      scalingConfigurations: [{
+        imageId: command.scalingConfigurations.imageId,
+        instanceType: command.scalingConfigurations.instanceType,
+        instanceTypes: command.scalingConfigurations.instanceTypes,
+        internetMaxBandwidthOut: command.scalingConfigurations.internetMaxBandwidthOut,
+        ramRoleName: command.scalingConfigurations.ramRoleName || null,
+        spotStrategy: command.scalingConfigurations.spotStrategy,
+        multiAZPolicy: command.scalingConfigurations.multiAZPolicy,
+        spotPriceLimit: command.scalingConfigurations.spotPriceLimit,
+        systemDiskCategory: command.systemDiskCategory,
+        systemDiskSize: command.systemDiskSize,
+        tags: tags,
+        spotPriceLimits: command.scalingConfigurations.spotPriceLimits || [],
+        loadBalancerWeight: command.scalingConfigurations.loadBalancerWeight,
+        password: command.scalingConfigurations.password,
+        securityGroupId: command.scalingConfigurations.securityGroupId,
+        internetChargeType: 'PayByTraffic',
+        keyPairName: command.scalingConfigurations.keyPairName,
+        dataDisks: [{
+          category: command.systemDiskCategory,
+          size: command.systemDiskSize
+        }]
+      }],
       account: command.credentials,
       selectedProvider: 'alicloud',
       credentials: command.credentials,
@@ -111,14 +111,12 @@ angular.module(ALICLOUD_SERVERGROUP_TRANSFORMER, []).factory('alicloudServerGrou
       configuration.scalingGroupName = configuration.scalingGroupName + '-' + command.freeFormDetails;
     }
 
+
     // Default to an empty list of health provider names for now.
     configuration.interestingHealthProviderNames = [];
     return configuration;
   }
+}
 
-  return {
-    convertServerGroupCommandToDeployConfiguration: convertServerGroupCommandToDeployConfiguration,
-    normalizeServerGroup: normalizeServerGroup,
-    parseCustomScriptsSettings: parseCustomScriptsSettings,
-  };
-});
+export const ALICLOUD_SERVERGROUP_TRANSFORMER = 'spinnaker.alicloud.serverGroup.transformer';
+module(ALICLOUD_SERVERGROUP_TRANSFORMER, []).service('alicloudServerGroupTransformer', AlicloudServerGroupTransformer);

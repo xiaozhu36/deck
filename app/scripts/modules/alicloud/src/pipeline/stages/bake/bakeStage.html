@@ -30,19 +30,11 @@
     <stage-config-field label="Base Name">
       <input type="text" class="form-control input-sm" ng-model="stage.baseName" />
     </stage-config-field>
-    <div ng-class="{collapse: showAdvancedOptions !== true, 'collapse.in': showAdvancedOptions === true}">
-      <stage-config-field
-        label="Template File Name"
-        help-key="pipeline.config.bake.templateFileName"
-        ng-if="bakeStageCtrl.showTemplateFileName()"
-      >
+    <div>
+      <stage-config-field label="Template File Name" help-key="pipeline.config.bake.templateFileName">
         <input type="text" class="form-control input-sm" ng-model="stage.templateFileName" />
       </stage-config-field>
-      <stage-config-field
-        label="Extended Attributes"
-        help-key="pipeline.config.bake.extendedAttributes"
-        ng-if="bakeStageCtrl.showExtendedAttributes()"
-      >
+      <stage-config-field label="Extended Attributes" help-key="pipeline.config.bake.extendedAttributes">
         <table class="table table-condensed packed">
           <thead>
             <tr>
@@ -80,11 +72,7 @@
           </tfoot>
         </table>
       </stage-config-field>
-      <stage-config-field
-        label="Var File Name"
-        help-key="pipeline.config.bake.varFileName"
-        ng-if="bakeStageCtrl.showVarFileName()"
-      >
+      <stage-config-field label="Var File Name" help-key="pipeline.config.bake.varFileName">
         <input type="text" class="form-control input-sm" ng-model="stage.varFileName" />
       </stage-config-field>
     </div>

@@ -6,7 +6,10 @@ import { SERVER_GROUP_WRITER, TaskMonitor } from '@spinnaker/core';
 
 export const ALICLOUD_DETAILS_ROLLBACK = 'spinnaker.alicloud.serverGroup.details.rollback.controller';
 angular
-  .module(ALICLOUD_DETAILS_ROLLBACK, [SERVER_GROUP_WRITER, require('../../../common/footer.directive').name])
+  .module(ALICLOUD_DETAILS_ROLLBACK, [
+    SERVER_GROUP_WRITER,
+    require('../../../common/footer.directive').name,
+  ])
   .controller('alicloudRollbackServerGroupCtrl', [
     '$scope',
     '$uibModalInstance',
@@ -14,22 +17,16 @@ angular
     'application',
     'serverGroup',
     'disabledServerGroups',
-    function(
-      $scope: any,
-      $uibModalInstance: any,
-      serverGroupWriter: any,
-      application: any,
-      serverGroup: any,
-      disabledServerGroups: any,
-    ) {
+    function($scope: any, $uibModalInstance: any, serverGroupWriter: any, application: any, serverGroup: any, disabledServerGroups: any) {
       $scope.serverGroup = serverGroup;
-      $scope.disabledServerGroups = disabledServerGroups.sort((a: any, b: any) => b.name.localeCompare(a.name));
+      $scope.disabledServerGroups = disabledServerGroups
+        .sort((a: any, b: any) => b.name.localeCompare(a.name));
       $scope.verification = {};
 
       let healthyPercent = 100;
       if (serverGroup.capacity.min < 10) {
         healthyPercent = 100;
-      } else if (serverGroup.capacity.min < 20) {
+      } else if (serverGroup.capacity.min  < 20) {
         healthyPercent = 90;
       } else {
         healthyPercent = 95;
@@ -39,7 +36,7 @@ angular
         rollbackType: 'EXPLICIT',
         rollbackContext: {
           rollbackServerGroupName: serverGroup.name,
-          enableAndDisableOnly: true,
+          enableAndDisableOnly: false,
           targetHealthyRollbackPercentage: healthyPercent,
           delayBeforeDisableSeconds: 0,
         },

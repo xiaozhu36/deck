@@ -12,7 +12,7 @@ import {
 } from '@spinnaker/core';
 import { ALICLOUD_SERVERGROUP_COMMSNDBUILDER } from '../configure/serverGroupCommandBuilder.service';
 import { ALICLOUD_DETAILS_RESIZE } from './resize/resizeServerGroup.controller';
-import { ALICLOUD_SERVERGROUP_DETAIL_SCLAINGGROUP } from './reScalingGroup/reScalingGroupServerGroup.controller';
+import { ALICLOUD_SERVERGROUP_DETAIL_SCLAINGGROUP  } from './reScalingGroup/reScalingGroupServerGroup.controller';
 import { ALICLOUD_SERVERGROUP_DETAIL_UPDATESECURITY } from './updateSecurityGroup/updateSecurityGroupServerGroup.controller';
 import { ALICLOUD_SERVERGROUP_DETAIL_UPDATELAUNCHCONFIG } from './updateLaunchConfig/updateLaunchConfigServerGroup.controller';
 import { ALICLOUD_DETAILS_ROLLBACK } from './rollback/rollbackServerGroup.controller';
@@ -75,7 +75,7 @@ angular
                   summary = possibleServerGroup;
                   return true;
                 } else {
-                  return false;
+                  return false
                 }
               });
             }
@@ -182,8 +182,8 @@ angular
         };
         if ($scope.serverGroup.instanceCounts) {
           $scope.serverGroup.instanceCounts = {
-            up: 1,
-          };
+            'up': 1
+          }
         }
         const submitMethod = () => serverGroupWriter.disableServerGroup(serverGroups, app);
         const confirmationModalParams = {
@@ -211,10 +211,10 @@ angular
         $scope.serverGroup.loadBalancerIds = $scope.serverGroup.result.scalingGroup.loadBalancerIds;
         $scope.serverGroup.freeFormDetails = $scope.serverGroup.detail;
         $scope.serverGroup.viewState = {
-          mode: 'create',
+          'mode': 'create'
         };
         $scope.serverGroup.source = {
-          asgName: $scope.serverGroup.moniker.cluster,
+          'asgName': $scope.serverGroup.moniker.cluster
         };
         $scope.serverGroup.vSwitchId = $scope.serverGroup.result.scalingGroup.vswitchId;
         $scope.serverGroup.vSwitchName = $scope.serverGroup.result.scalingGroup.vswitchName;
@@ -222,13 +222,11 @@ angular
         $scope.serverGroup.systemDiskSize = $scope.serverGroup.result.scalingConfiguration.systemDiskSize;
         $scope.serverGroup.scalingConfigurations = $scope.serverGroup.result.scalingConfiguration;
         const tags: any = {};
-        $scope.serverGroup.scalingConfigurations.tags = $scope.serverGroup.scalingConfigurations.tags.map(
-          (item: any) => {
-            const key: string = item.key;
-            tags[key] = item.value;
-            return tags;
-          },
-        );
+        $scope.serverGroup.scalingConfigurations.tags = $scope.serverGroup.scalingConfigurations.tags.map((item: any) => {
+          const key: string = item.key;
+          tags[key] = item.value;
+          return tags;
+        })
         $scope.serverGroup.scalingConfigurations.multiAZPolicy = $scope.serverGroup.result.scalingGroup.multiAZPolicy;
         $scope.serverGroup.scalingConfigurations.scalingPolicy = $scope.serverGroup.result.scalingGroup.scalingPolicy;
         const serverGroups = $scope.serverGroup;
@@ -248,13 +246,14 @@ angular
       };
 
       this.enableServerGroup = function enableServerGroup() {
-        $scope.serverGroup.scalingGroupName = $scope.serverGroup.serverGroupName;
+        $scope.serverGroup.scalingGroupName = $scope.serverGroup.serverGroupName
         const serverGroups = $scope.serverGroup;
         const taskMonitor = {
           application: app,
           title: 'Enabling ' + serverGroup.name,
         };
-        const submitMethod = (params: any) => {
+        const submitMethod = (
+          params: any) => {
           return serverGroupWriter.enableServerGroup(
             serverGroups,
             app,

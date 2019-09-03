@@ -7,7 +7,7 @@ const angular = require('angular');
 
 export const ALICLOUD_SERVERGROUP_BASICSETTING = 'spinnaker.alicloud.serverGroup.configure.basicSettings';
 angular
-  .module(ALICLOUD_SERVERGROUP_BASICSETTING, [
+  .module(ALICLOUD_SERVERGROUP_BASICSETTING , [
     require('@uirouter/angularjs').default,
     require('angular-ui-bootstrap'),
     ALICLOUD_SERVERGROUP_IMAGE,
@@ -27,7 +27,7 @@ angular
       $scope.command.regionInput = [];
       const rinput: any[] = [];
       $scope.command.backingData.filtered.regions.forEach((item: any) => {
-        rinput.push({ name: item });
+        rinput.push({ 'name': item })
       });
       $scope.command.backingData.filtered.regions = rinput;
 
@@ -40,30 +40,28 @@ angular
         }
       });
 
-      $scope.$watch('command.region', function(newVal: any, oldVal: any) {
+      $scope.$watch('command.region', function( newVal: any, oldVal: any) {
         if (newVal) {
-          API.one('subnets/alicloud')
-            .getList()
-            .then((vnets: any) => {
-              const subnets: any[] = [];
-              vnets.forEach((vnet: any) => {
-                if (vnet.account === $scope.command.credentials && vnet.region === $scope.command.region) {
-                  subnets.push(vnet);
-                }
-              });
-              $scope.selectedSubnets = subnets;
-              const subn: any[] = [];
-              $scope.selectedSubnets.forEach((vnet: any) => {
-                if (vnet.zoneId === $scope.command.masterZoneId) {
-                  subn.push(vnet);
-                }
-              });
-              $scope.subns = subn;
-              const zoneIds = subnets.map(item => {
-                return item.zoneId;
-              });
-              $scope.zoneIds = Array.from(new Set(zoneIds));
+          API.one('subnets/alicloud').getList().then((vnets: any) => {
+            const subnets: any[] = [];
+            vnets.forEach((vnet: any) => {
+              if (vnet.account === $scope.command.credentials && vnet.region === $scope.command.region) {
+                subnets.push(vnet);
+              }
             });
+            $scope.selectedSubnets = subnets;
+            const subn: any[] = [];
+            $scope.selectedSubnets.forEach((vnet: any) => {
+              if (vnet.zoneId === $scope.command.masterZoneId) {
+                subn.push(vnet)
+              }
+            });
+            $scope.subns = subn;
+            const zoneIds = subnets.map((item) => {
+              return item.zoneId
+            });
+            $scope.zoneIds = Array.from(new Set(zoneIds))
+          });
           if (oldVal !== newVal) {
             $scope.command.masterZoneId = null;
             $scope.command.vSwitchId = null;
@@ -73,20 +71,21 @@ angular
         }
       });
 
-      $scope.$watch('command.masterZoneId', function(newVal: any, oldVal: any) {
+      $scope.$watch('command.masterZoneId', function(newVal: any, oldVal: any ) {
         if (newVal) {
           const subn: any[] = [];
           $scope.selectedSubnets.forEach((vnet: any) => {
             if (vnet.zoneId === $scope.command.masterZoneId) {
-              subn.push(vnet);
+              subn.push(vnet)
             }
           });
-          $scope.subns = subn;
+          $scope.subns = subn
           if (oldVal !== newVal) {
             $scope.command.vSwitchId = null;
+
           }
         } else {
-          return;
+          return
         }
       });
 
@@ -121,9 +120,7 @@ angular
 
       this.detailPattern = {
         test: function(detail: any) {
-          const pattern = $scope.command.viewState.templatingEnabled
-            ? /^([a-zA-Z0-9-]*(\${.+})*)*$/
-            : /^[a-zA-Z0-9-]*$/;
+          const pattern = $scope.command.viewState.templatingEnabled ? /^([a-zA-Z0-9-]*(\${.+})*)*$/ : /^[a-zA-Z0-9-]*$/;
           return pattern.test(detail);
         },
       };

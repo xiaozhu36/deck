@@ -6,6 +6,7 @@
     <loading-spinner size="'small'"></loading-spinner>
   </div>
   <div>
+    <ServerGroupImage command={command} />
     <form name="serverGroupWizardForm" class="form-horizontal" novalidate validate-on-submit>
       <v2-modal-wizard
         ng-show="state.loaded && !state.requiresTemplateSelection"
@@ -15,6 +16,7 @@
       >
         <v2-wizard-page key="basic-settings" label="Basic Settings" hide-subheading="true">
           <ng-include src="pages.basicSettings"></ng-include>
+          <AdvancedSettings command={command} />
         </v2-wizard-page>
         <v2-wizard-page key="load-balancers" label="Load Balancers" mark-complete-on-view="false">
           <ng-include src="pages.loadBalancers"></ng-include>

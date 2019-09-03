@@ -14,6 +14,15 @@ angular
     ALICLOUD_SERVERGROUP_TRANSFORMER,
     SERVER_GROUP_WRITER,
   ])
+  .directive('alicloudCloneCluster', function() {
+    return {
+      restrict: 'E',
+      templateUrl: require('./serverGroupWizard.html'),
+      bindToController: {},
+      controllerAs: 'alicloudCloneServerGroupCtrl',
+      controller: 'alicloudCloneServerGroupCtrl',
+    };
+  })
   .controller('alicloudCloneServerGroupCtrl', [
     '$scope',
     '$uibModalInstance',
@@ -129,6 +138,7 @@ angular
                 serverGroupCommand.masterZoneId = item.zoneId;
                 $scope.command = serverGroupCommand;
                 $scope.command.vSwitchName = item.vswitchName;
+                $scope.command.vpcId = item.vpcId;
                 $scope.command.viewState.loadBalancersConfigured = true;
                 $scope.command.viewState.sresourceecurityGroupsConfigured = true;
                 $scope.command.backingData.filtered.regions = $scope.regions;

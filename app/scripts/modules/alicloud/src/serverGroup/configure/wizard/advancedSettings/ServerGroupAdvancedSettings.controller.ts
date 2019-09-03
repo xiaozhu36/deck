@@ -9,14 +9,14 @@ angular
     '$scope',
     'modalWizardService',
     function($scope: any, modalWizardService: any) {
-      modalWizardService.getWizard().markComplete('advanced');
-
-      $scope.$watch('form.$valid', function(newVal: any) {
-        if (newVal) {
-          modalWizardService.getWizard().markClean('advanced');
-        } else {
-          modalWizardService.getWizard().markDirty('advanced');
-        }
-      });
+      // modalWizardService.getWizard().markComplete('advanced');
+      //
+      // $scope.$watch('form.$valid', function(newVal: any) {
+      //   if (newVal) {
+      //     modalWizardService.getWizard().markClean('advanced');
+      //   } else {
+      //     modalWizardService.getWizard().markDirty('advanced');
+      //   }
+      // });
     },
   ]);
