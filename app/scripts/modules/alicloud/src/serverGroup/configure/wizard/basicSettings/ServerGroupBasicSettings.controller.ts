@@ -25,6 +25,7 @@ angular
       $scope.subns = [];
       $scope.zoneIds = [];
       $scope.command.regionInput = [];
+      $scope.command.selectedProvider = 'alicloud';
       const rinput: any[] = [];
       $scope.command.backingData.filtered.regions.forEach((item: any) => {
         rinput.push({ 'name': item })
@@ -93,6 +94,10 @@ angular
         $scope.command.vSwitchId = subnet.vswitchId;
         $scope.command.vSwitchName = subnet.vswitchName;
         $scope.command.vpcId = subnet.vpcId;
+      };
+
+      this.useSourceCapacityUpdated = function() {
+        $scope.command.useSourceCapacity = $scope.command.useSourceCapacity ? false : true;
       };
 
       this.imageChanged = (image: any) => {

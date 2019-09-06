@@ -66,6 +66,7 @@ export class AlicloudServerGroupTransformer {
       freeFormDetails: command.freeFormDetails,
       maxSize: command.maxSize,
       minSize: command.minSize,
+      useSourceCapacity: command.useSourceCapacity,
       defaultCooldown: command.defaultCooldown,
       loadBalancerIds: command.newloadBalancerIds,
       scalingPolicy: 'recycle',

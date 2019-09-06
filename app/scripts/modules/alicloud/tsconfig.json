@@ -36,7 +36,9 @@
       "alicloud/*": ["../../alicloud/lib/*"]
     }
   },
-  "files": ["src/index.ts"],
+  "files": [
+    "src/index.ts"
+  ],
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["./lib", "**/*.spec.*"]
 }

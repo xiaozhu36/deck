@@ -1,11 +1,11 @@
-<div ng-controller="awsBakeExecutionDetailsCtrl">
+<div ng-controller="alicloudBakeExecutionDetailsCtrl">
   <execution-details-section-nav sections="configSections"></execution-details-section-nav>
   <div class="step-section-details" ng-if="detailsSection === 'bakeConfig'">
     <div class="row">
       <div class="col-md-6">
         <dl class="dl-narrow dl-horizontal">
           <dt if-multiple-providers>Provider</dt>
-          <dd if-multiple-providers>Amazon</dd>
+          <dd if-multiple-providers>alicloud</dd>
           <dt>Image</dt>
           <dd>{{stage.context.ami}}</dd>
           <dt>Region</dt>

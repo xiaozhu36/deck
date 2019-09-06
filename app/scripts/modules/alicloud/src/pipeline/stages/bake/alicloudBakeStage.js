@@ -51,6 +51,7 @@ module.exports = angular
     function($scope, $q, $uibModal) {
       $scope.stage.extendedAttributes = $scope.stage.extendedAttributes || {};
       $scope.stage.regions = $scope.stage.regions || [];
+      initialize();
 
       if (!$scope.stage.user) {
         $scope.stage.user = AuthenticationService.getAuthenticatedUser().name;
@@ -94,7 +95,7 @@ module.exports = angular
           }
           $scope.viewState.roscoMode = SETTINGS.feature.roscoMode;
           $scope.viewState.loading = false;
-        }).catch(()=>{ $scope.viewState.loading = false;});
+        });
       }
 
       this.baseOsChanged = () => {
@@ -153,7 +154,5 @@ module.exports = angular
       };
 
       $scope.$watch('stage', deleteEmptyProperties, true);
-
-      initialize();
     },
   ]);

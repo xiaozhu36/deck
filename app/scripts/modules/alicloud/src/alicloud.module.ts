@@ -9,7 +9,12 @@ import { ALICLOUD_LOADBALANCER_CREATE } from './loadBalancer/configure/createLoa
 import { ALICLOUD_SERVERGROUP_TRANSFORMER } from './serverGroup/serverGroup.transformer';
 import { ALICLOUD_SERVERGROUP_CONFIGURE } from './serverGroup/configure/serverGroup.configure.alicloud.module';
 import { ALICLOUD_SERVERGROUP_DETAILS } from './serverGroup/details/serverGroup.details.module';
+// import { ALICLOUD_SERVER_GROUP_TRANSFORMER } from './serverGroup/serverGroup.transformer';
+// import { SERVER_GROUP_DETAILS_MODULE } from './serverGroup/details/serverGroupDetails.module';
+// import { AlicloudServerGroupActions } from './serverGroup/details/AlicloudServerGroupActions';
+// import { alicloudServerGroupDetailsGetter } from './serverGroup/details/alicloudServerGroupDetailsGetter';
 import { ALICLOUD_CLONESERVERGROUPCTRL } from './serverGroup/configure/wizard/CloneServerGroup.alicloud.controller';
+import { CloneServerGroupAlicloud } from './serverGroup/configure/wizard/CloneServerGroup.alicloud';
 import { ALICLOUD_INSTANCE_SERVICE } from './instance/alicloudInstanceType.service';
 import { ALICLOUD_INSTANCE_DETAILCTRL } from './instance/details/instance.details.controller';
 import { ALICLOU_VALIDATION } from './validation/applicationName.validator';
@@ -79,6 +84,7 @@ module(ALICLOUD_MODULE, [
       transformer: 'alicloudServerGroupTransformer',
       detailsTemplateUrl: require('./serverGroup/details/serverGroupDetails.html'),
       detailsController: 'alicloudServerGroupDetailsCtrl',
+      // CloneServerGroupModal: CloneServerGroupAlicloud,
       cloneServerGroupTemplateUrl: require('./serverGroup/configure/wizard/serverGroupWizard.html'),
       cloneServerGroupController: 'alicloudCloneServerGroupCtrl',
       commandBuilder: 'alicloudServerGroupCommandBuilder',
@@ -108,4 +114,4 @@ module(ALICLOUD_MODULE, [
   });
 });
 
-DeploymentStrategyRegistry.registerProvider('alicloud', ['redblack']);
+DeploymentStrategyRegistry.registerProvider('alicloud', ['custom', 'redblack', 'rollingpush', 'rollingredblack']);

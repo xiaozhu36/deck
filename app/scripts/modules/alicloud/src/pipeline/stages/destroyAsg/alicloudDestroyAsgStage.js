@@ -46,7 +46,7 @@ module.exports = angular
 
       ctrl.accountUpdated = function() {
         AccountService.getAccountDetails(stage.credentials).then(function(details) {
-          stage.regions = [details.org];
+          $scope.regions = details.regions;
         });
       };
 

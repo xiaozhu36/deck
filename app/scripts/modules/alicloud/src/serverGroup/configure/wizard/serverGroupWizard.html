@@ -24,6 +24,9 @@
         <v2-wizard-page key="security-groups" label="{{firewallsLabel}}" mark-complete-on-view="false" done="true">
           <ng-include src="pages.securityGroups"></ng-include>
         </v2-wizard-page>
+        <v2-wizard-page key="capacity" label="Capacity" mark-complete-on-view="false" done="true">
+          <ng-include src="pages.zones"></ng-include>
+        </v2-wizard-page>
         <v2-wizard-page key="tags" label="Tags" mark-complete-on-view="false" done="true">
           <ng-include src="pages.tags"></ng-include>
         </v2-wizard-page>

@@ -51,7 +51,7 @@ angular
         networkSettings: require('./networkSettings/networkSettings.html'),
         securityGroups: require('./securityGroup/securityGroups.html'),
         instanceType: require('./instanceType/instanceType.html'),
-        zones: require('./capacity/zones.html'),
+        zones: require('./capacity/capacity.html'),
         tags: require('./tags/tags.html'),
         advancedSettings: require('./advancedSettings/advancedSettings.html'),
       };
@@ -110,6 +110,7 @@ angular
             serverGroupCommand.viewState.useAllImageSelection = true;
           }
           if (mode === 'createPipline') {
+            $scope.command.selectedProvider = 'alicloud';
             API.one('images/find')
               .get({ provider: 'alicloud' })
               .then((imageLoader: any) => {
@@ -352,6 +353,16 @@ angular
 
       $scope.$watch(
         'command.strategy',
+        function(oldVal: any, newVal: any) {
+          if (newVal !== oldVal) {
+            $scope.isvalid = true;
+          }
+        },
+        true,
+      );
+
+      $scope.$watch(
+        'command.useSourceCapacity',
         function(oldVal: any, newVal: any) {
           if (newVal !== oldVal) {
             $scope.isvalid = true;

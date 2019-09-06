@@ -23,14 +23,6 @@ import {
 import { alicloudServerGroupConfigurationService } from '../serverGroupConfiguration.service';
 
 export class CloneServerGroupAlicloud extends React.Component<> {
-  // public static defaultProps: Partial<IAmazonCloneServerGroupModalProps> = {
-  //   closeModal: noop,
-  //   dismissModal: noop,
-  // };
-  //
-  // private _isUnmounted = false;
-  // private refreshUnsubscribe: () => void;
-  //
   public static show(props: any) {
     const modalProps = { dialogClassName: 'wizard-modal modal-lg' };
     return ReactModal.show(CloneServerGroupAlicloud, props, modalProps);
@@ -67,56 +59,6 @@ export class CloneServerGroupAlicloud extends React.Component<> {
     this.props.application.serverGroups.onNextRefresh(null, this.onApplicationRefresh);
   };
 
-  // protected onApplicationRefresh = (): void => {
-  //   if (this._isUnmounted) {
-  //     return;
-  //   }
-  //
-  //   const { command } = this.props;
-  //   const { taskMonitor } = this.state;
-  //   const cloneStage = taskMonitor.task.execution.stages.find((stage: IStage) => stage.type === 'cloneServerGroup');
-  //   if (cloneStage && cloneStage.context['deploy.server.groups']) {
-  //     const newServerGroupName = cloneStage.context['deploy.server.groups'][command.region];
-  //     if (newServerGroupName) {
-  //       const newStateParams = {
-  //         serverGroup: newServerGroupName,
-  //         accountId: command.credentials,
-  //         region: command.region,
-  //         provider: 'alicloud',
-  //       };
-  //       let transitionTo = '^.^.^.clusters.serverGroup';
-  //       if (ReactInjector.$state.includes('**.clusters.serverGroup')) {
-  //         // clone via details, all view
-  //         transitionTo = '^.serverGroup';
-  //       }
-  //       if (ReactInjector.$state.includes('**.clusters.cluster.serverGroup')) {
-  //         // clone or create with details open
-  //         transitionTo = '^.^.serverGroup';
-  //       }
-  //       if (ReactInjector.$state.includes('**.clusters')) {
-  //         // create new, no details open
-  //         transitionTo = '.serverGroup';
-  //       }
-  //       ReactInjector.$state.go(transitionTo, newStateParams);
-  //     }
-  //   }
-  // };
-  //
-  // private initializeCommand = () => {
-  //   const { command } = this.props;
-  //
-  //   command.credentialsChanged(command);
-  //   command.regionChanged(command);
-  //   AwsReactInjector.awsServerGroupConfigurationService.configureSubnetPurposes(command);
-  // };
-  //
-  // private configureCommand = () => {
-  //   const { application, command } = this.props;
-  //   AwsReactInjector.awsServerGroupConfigurationService.configureCommand(application, command).then(() => {
-  //     this.initializeCommand();
-  //     this.setState({ loaded: true, requiresTemplateSelection: false });
-  //   });
-  // };
   private configureCommand = () => {
     let { application, command } = this.props;
     let serverGroupCommand: any = command;
@@ -192,36 +134,6 @@ export class CloneServerGroupAlicloud extends React.Component<> {
     processCommandUpdateResult(command.credentialsChanged(command, true));
     processCommandUpdateResult(command.regionChanged(command, true));
   }
-  //
-  // private normalizeCommand = ({ tags }: IAmazonServerGroupCommand) => {
-  //   if (!tags) {
-  //     return;
-  //   }
-  //   Object.keys(tags).forEach(key => {
-  //     if (!key.length && !tags[key].length) {
-  //       delete tags[key];
-  //     }
-  //   });
-  // };
-  //
-  // public componentWillUnmount(): void {
-  //   this._isUnmounted = true;
-  //   if (this.refreshUnsubscribe) {
-  //     this.refreshUnsubscribe();
-  //   }
-  // }
-  //
-  // private submit = (command: IAmazonServerGroupCommand): void => {
-  //   this.normalizeCommand(command);
-  //   const forPipelineConfig = command.viewState.mode === 'editPipeline' || command.viewState.mode === 'createPipeline';
-  //   if (forPipelineConfig) {
-  //     this.props.closeModal && this.props.closeModal(command);
-  //   } else {
-  //     this.state.taskMonitor.submit(() =>
-  //       ReactInjector.serverGroupWriter.cloneServerGroup(command, this.props.application),
-  //     );
-  //   }
-  // };
 
   const App = connect(
     mapStateToProps,
