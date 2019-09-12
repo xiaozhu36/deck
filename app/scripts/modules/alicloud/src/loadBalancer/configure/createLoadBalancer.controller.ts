@@ -370,7 +370,7 @@ angular
       };
 
       this.addListener = function() {
-        const un = { listenerProtocal: 'HTTP', healthCheck: 'on', bandwidth: -1 };
+        const un = { listenerProtocal: 'HTTP', healthCheck: 'on', bandwidth: -1, };
         $scope.loadBalancer.listeners.push(un);
       };
       $scope.$watch(
@@ -394,8 +394,7 @@ angular
             regionId: $scope.loadBalancer.region,
             subnetId: $scope.loadBalancer.vSwitchId,
           };
-          $scope.loadBalancer.name =
-            application.name + '-' + $scope.loadBalancer.stack + '-' + $scope.loadBalancer.detail;
+          $scope.loadBalancer.name = application.name + '-' + $scope.loadBalancer.stack + '-' + $scope.loadBalancer.detail;
           if ($scope.loadBalancer.selectedVnet) {
             $scope.loadBalancer.vnet = $scope.loadBalancer.selectedVnet.name;
             $scope.loadBalancer.vnetResourceGroup = $scope.loadBalancer.selectedVnet.resourceGroup;

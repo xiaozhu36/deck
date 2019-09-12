@@ -13,7 +13,10 @@ import {
 
 export const ALICLOUD_SECURITY_BASECONFIGCTRL = 'spinnaker.alicloud.securityGroup.baseConfig.controller';
 angular
-  .module(ALICLOUD_SECURITY_BASECONFIGCTRL, [require('@uirouter/angularjs').default, SECURITY_GROUP_READER])
+  .module(ALICLOUD_SECURITY_BASECONFIGCTRL, [
+    require('@uirouter/angularjs').default,
+    SECURITY_GROUP_READER,
+  ])
   .controller('alicloudConfigSecurityGroupMixin', [
     '$scope',
     '$state',

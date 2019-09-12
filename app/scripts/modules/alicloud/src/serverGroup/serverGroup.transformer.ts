@@ -68,7 +68,7 @@ export class AlicloudServerGroupTransformer {
       minSize: command.minSize,
       useSourceCapacity: command.useSourceCapacity,
       defaultCooldown: command.defaultCooldown,
-      loadBalancerIds: command.newloadBalancerIds,
+      loadBalancerIds: command.loadBalancerIds,
       scalingPolicy: 'recycle',
       scalingConfigurations: [{
         imageId: command.scalingConfigurations.imageId,

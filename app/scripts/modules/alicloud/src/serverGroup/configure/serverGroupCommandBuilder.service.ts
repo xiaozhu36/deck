@@ -8,7 +8,10 @@ import { ALICLOUD_IMAGE } from '../../image/image.reader';
 
 export const ALICLOUD_SERVERGROUP_COMMSNDBUILDER = 'spinnaker.alicloud.serverGroupCommandBuilder.service';
 angular
-  .module(ALICLOUD_SERVERGROUP_COMMSNDBUILDER, [ALICLOUD_IMAGE, ALICLOUD_SERVERGROUP_TRANSFORMER])
+  .module(ALICLOUD_SERVERGROUP_COMMSNDBUILDER, [
+    ALICLOUD_IMAGE,
+    ALICLOUD_SERVERGROUP_TRANSFORMER,
+  ])
   .factory('alicloudServerGroupCommandBuilder', [
     '$q',
     'alicloudImageReader',
@@ -27,12 +30,7 @@ angular
             images: imageLoader,
           })
           .then(function(backingData: any) {
-            const loadbalancers: any[] = [],
-              tags: any = {},
-              selectedVnetSubnets: any[] = [],
-              zones: any[] = [],
-              instanceType: any = null,
-              priceLimit: any = null;
+            const loadbalancers: any[] = [], tags: any = {}, selectedVnetSubnets: any[] = [], zones: any[] = [], instanceType: any  = null, priceLimit: any = null;
             return {
               application: application.name,
               credentials: defaultCredentials,
@@ -50,13 +48,13 @@ angular
               systemDiskSize: 40,
               selectedProvider: 'alicloud',
               scalingConfigurations: {
-                spotPriceLimits: [
+                'spotPriceLimits': [
                   {
-                    priceLimit: priceLimit,
-                    instanceType: instanceType,
-                  },
+                    'priceLimit': priceLimit,
+                    'instanceType': instanceType,
+                  }
                 ],
-                tags: tags,
+                'tags': tags,
               },
               viewState: {
                 instanceProfile: 'custom',
@@ -86,12 +84,10 @@ angular
             images: imageLoader,
           })
           .then(function(backingData: any) {
-            const loadbalancers: any[] = [],
-              selectedVnetSubnets: any[] = [],
-              zones: any[] = [];
+            const loadbalancers: any[] = [], selectedVnetSubnets: any[] = [], zones: any[] = [];
             defaults.scalingConfigurations[0].scalingPolicy = defaults.scalingPolicy;
-            if (defaults.scalingConfigurations[0].tags === '') {
-              defaults.scalingConfigurations[0].tags = {};
+            if ( defaults.scalingConfigurations[0].tags === '') {
+              defaults.scalingConfigurations[0].tags = {}
             } else {
               defaults.scalingConfigurations[0].tags = angular.fromJson(defaults.scalingConfigurations[0].tags);
             }
@@ -142,19 +138,18 @@ angular
 
       // Only used to prepare view requiring template selecting
       function buildNewServerGroupCommandForPipeline() {
-        const instanceType: any = null,
-          priceLimit: any = null;
+        const instanceType: any  = null, priceLimit: any = null;
         return $q.when({
           viewState: {
             // requiresTemplateSelection: true,
             mode: 'createPipline',
           },
           scalingConfigurations: {
-            spotPriceLimits: [
+            'spotPriceLimits': [
               {
-                priceLimit: priceLimit,
-                instanceType: instanceType,
-              },
+                'priceLimit': priceLimit,
+                'instanceType': instanceType,
+              }
             ],
           },
         });
@@ -164,11 +159,8 @@ angular
         mode = mode || 'clone';
         serverGroup.result.scalingConfiguration.multiAZPolicy = serverGroup.result.scalingGroup.multiAZPolicy;
         serverGroup.result.scalingConfiguration.scalingPolicy = serverGroup.result.scalingGroup.scalingPolicy;
-        if (
-          serverGroup.result.scalingConfiguration.tags === '' ||
-          serverGroup.result.scalingConfiguration.tags === {}
-        ) {
-          serverGroup.result.scalingConfiguration.tags = {};
+        if (serverGroup.result.scalingConfiguration.tags === '' ||  serverGroup.result.scalingConfiguration.tags === {} ) {
+          serverGroup.result.scalingConfiguration.tags = {}
         } else {
           serverGroup.result.scalingConfiguration.tags = angular.fromJson(serverGroup.result.scalingConfiguration.tags);
         }

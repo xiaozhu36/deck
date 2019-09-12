@@ -6,9 +6,7 @@ import { get } from 'lodash';
 import { SETTINGS } from '@spinnaker/core';
 
 module.exports = angular
-  .module('spinnaker.alicloud.pipeline.stage.bake.executionDetails.controller', [
-    require('@uirouter/angularjs').default,
-  ])
+  .module('spinnaker.alicloud.pipeline.stage.bake.executionDetails.controller', [require('@uirouter/angularjs').default])
   .controller('alicloudBakeExecutionDetailsCtrl', [
     '$scope',
     '$stateParams',

@@ -18,7 +18,8 @@ angular
     return {
       restrict: 'E',
       templateUrl: require('./serverGroupWizard.html'),
-      bindToController: {},
+      bindToController: {
+      },
       controllerAs: 'alicloudCloneServerGroupCtrl',
       controller: 'alicloudCloneServerGroupCtrl',
     };
@@ -44,6 +45,7 @@ angular
       application: any,
       title: any,
     ) {
+
       $scope.pages = {
         templateSelection: require('./templateSelection.html'),
         basicSettings: require('./basicSettings/basicSettings.html'),
@@ -81,7 +83,7 @@ angular
         };
         $scope.command.systemDiskCategory = 'cloud_ssd';
         $scope.command.systemDiskSize = 40;
-      }
+      };
       $scope.command.instanceTags = {};
       $scope.command.backingData = $scope.command.backingData || {};
       $scope.command.backingData.filtered = $scope.command.backingData.filtered || {};
@@ -93,16 +95,14 @@ angular
       };
       AccountService.getRegionsForAccount(`${$scope.command.credentials}`).then(function(regions: any) {
         const regionsl: any[] = [];
-        regions.forEach((item: any) => {
+        regions.forEach( ( item: any ) => {
           regionsl.push({ name: item });
         });
         $scope.regions = regionsl;
       });
-      API.one('subnets/alicloud')
-        .getList()
-        .then((vnets: any) => {
-          $scope.vnets = vnets;
-        });
+      API.one('subnets/alicloud').getList().then((vnets: any) => {
+        $scope.vnets = vnets;
+      });
       function configureCommand() {
         alicloudServerGroupConfigurationService.configureCommand(application, serverGroupCommand).then(function() {
           const mode = serverGroupCommand.viewState.mode;
@@ -112,14 +112,13 @@ angular
           if (mode === 'createPipline') {
             $scope.command.selectedProvider = 'alicloud';
             API.one('images/find')
-              .get({ provider: 'alicloud' })
-              .then((imageLoader: any) => {
-                $scope.command.imgeId = imageLoader;
-              });
+              .get({ provider: 'alicloud' }).then(( imageLoader: any ) => {
+              $scope.command.imgeId = imageLoader;
+            })
           }
           if ($scope.command.viewState.mode !== 'create') {
             if ($scope.command.scalingConfigurations.tags === '') {
-              $scope.command.scalingConfigurations.tags = {};
+              $scope.command.scalingConfigurations.tags = {}
             } else {
               $scope.command.scalingConfigurations.tags = angular.fromJson($scope.command.scalingConfigurations.tags);
             }
@@ -133,8 +132,8 @@ angular
             $scope.command = serverGroupCommand;
             $scope.command.viewState.loadBalancersConfigured = true;
             $scope.command.viewState.securityGroupsConfigured = true;
-            $scope.command.backingData.filtered.regions = $scope.regions;
-            $scope.vnets.map((item: any) => {
+            $scope.command.backingData.filtered.regions = $scope.regions
+            $scope.vnets.map(( (item: any) => {
               if (item.vswitchId === serverGroupCommand.vSwitchId) {
                 serverGroupCommand.masterZoneId = item.zoneId;
                 $scope.command = serverGroupCommand;
@@ -142,7 +141,7 @@ angular
                 $scope.command.vpcId = item.vpcId;
                 $scope.command.viewState.loadBalancersConfigured = true;
                 $scope.command.viewState.sresourceecurityGroupsConfigured = true;
-                $scope.command.backingData.filtered.regions = $scope.regions;
+                $scope.command.backingData.filtered.regions = $scope.regions
                 $scope.state.loaded = true;
                 $scope.state.requiresTemplateSelection = false;
                 $scope.state.loaded = true;
@@ -150,7 +149,7 @@ angular
                 initializeSelectOptions();
                 initializeWatches();
               }
-            });
+            }))
           } else {
             $scope.state.loaded = true;
             initializeWizardState();
@@ -177,9 +176,7 @@ angular
         if ($scope.$$destroyed) {
           return;
         }
-        const cloneStage = $scope.taskMonitor.task.execution.stages.find(
-          (stage: any) => stage.type === 'cloneServerGroup',
-        );
+        const cloneStage = $scope.taskMonitor.task.execution.stages.find((stage: any) => stage.type === 'cloneServerGroup');
         if (cloneStage && cloneStage.context['deploy.server.groups']) {
           const newServerGroupName = cloneStage.context['deploy.server.groups'][$scope.command.region];
           if (newServerGroupName) {
@@ -266,32 +263,24 @@ angular
       }
 
       this.submit = function() {
-        $scope.command.serverGroupName =
-          application.applicationName + '-' + $scope.command.stack + '-' + $scope.command.freeFormDetails;
+        $scope.command.serverGroupName = application.applicationName + '-' + $scope.command.stack + '-' + $scope.command.freeFormDetails
         if ($scope.command.scalingConfigurations.spotStrategy !== 'SpotWithPriceLimit') {
-          if (
-            $scope.command.scalingConfigurations.spotPriceLimits &&
-            $scope.command.scalingConfigurations.spotPriceLimits.length > 0
-          ) {
-            delete $scope.command.scalingConfigurations.spotPriceLimits[0];
-            delete $scope.command.scalingConfigurations.spotPriceLimits;
+          if ($scope.command.scalingConfigurations.spotPriceLimits && $scope.command.scalingConfigurations.spotPriceLimits.length > 0 ) {
+            delete $scope.command.scalingConfigurations.spotPriceLimits[0]
+            delete $scope.command.scalingConfigurations.spotPriceLimits
           }
         } else {
-          $scope.command.scalingConfigurations.spotPriceLimits[0].instanceType =
-            $scope.command.scalingConfigurations.instanceType;
-          $scope.command.scalingConfigurations.spotPriceLimits[0].priceLimit = parseFloat(
-            $scope.command.scalingConfigurations.spotPriceLimits[0].priceLimit,
-          );
+          $scope.command.scalingConfigurations.spotPriceLimits[0].instanceType = $scope.command.scalingConfigurations.instanceType;
+          $scope.command.scalingConfigurations.spotPriceLimits[0].priceLimit = parseFloat($scope.command.scalingConfigurations.spotPriceLimits[0].priceLimit);
         }
         $scope.command.capacity = {};
         $scope.command.capacity = {
-          max: $scope.command.maxSize,
-          min: $scope.command.minSize,
-          desired: $scope.command.minSize,
-        };
+          'max': $scope.command.maxSize,
+          'min': $scope.command.minSize,
+          'desired': $scope.command.minSize,
+        }
         if ($scope.command.viewState.mode === 'createPipline') {
-          $scope.command.serverGroupName =
-            application.applicationName + '-' + $scope.command.stack + '-' + $scope.command.freeFormDetails;
+          $scope.command.serverGroupName = application.applicationName + '-' + $scope.command.stack + '-' + $scope.command.freeFormDetails;
           $scope.command.application = application.applicationName;
           $scope.command.selectedProvider = 'alicloud';
           $scope.command.viewState = {
@@ -310,11 +299,7 @@ angular
           $scope.command.enableInboundNAT = false;
         }
 
-        if (
-          $scope.command.viewState.mode === 'editPipeline' ||
-          $scope.command.viewState.mode === 'editDeploy' ||
-          $scope.command.viewState.mode === 'createPipline'
-        ) {
+        if ( $scope.command.viewState.mode === 'editPipeline' || $scope.command.viewState.mode === 'editDeploy' || $scope.command.viewState.mode === 'createPipline' ) {
           return $uibModalInstance.close($scope.command);
         }
         $scope.taskMonitor.submit(function() {
@@ -351,43 +336,23 @@ angular
         configureCommand();
       };
 
-      $scope.$watch(
-        'command.strategy',
-        function(oldVal: any, newVal: any) {
-          if (newVal !== oldVal) {
-            $scope.isvalid = true;
-          }
-        },
-        true,
-      );
+      $scope.$watch('command.strategy', function(oldVal: any, newVal: any) {
+        if (newVal !== oldVal) {
+          $scope.isvalid = true
+        }
+      }, true);
 
-      $scope.$watch(
-        'command.useSourceCapacity',
-        function(oldVal: any, newVal: any) {
-          if (newVal !== oldVal) {
-            $scope.isvalid = true;
-          }
-        },
-        true,
-      );
+      $scope.$watch('command.useSourceCapacity', function(oldVal: any, newVal: any) {
+        if (newVal !== oldVal) {
+          $scope.isvalid = true
+        }
+      }, true);
 
       this.isValid = function(): boolean {
-        if (
-          $scope.command.application === null ||
-          $scope.command.freeFormDetails === null ||
-          $scope.command.defaultCooldown === null ||
-          $scope.command.maxSize == null ||
-          $scope.command.minSize === null ||
-          $scope.command.stack == null ||
-          $scope.command.scalingConfigurations.securityGroupId === null ||
-          $scope.command.scalingConfigurations.keyPairName === null ||
-          $scope.command.scalingConfigurations.imageId === null ||
-          $scope.command.credentials === null ||
-          $scope.command.scalingConfigurations.instanceType === null
-        ) {
-          return true;
+        if ($scope.command.application === null || $scope.command.freeFormDetails === null || $scope.command.defaultCooldown === null || $scope.command.maxSize == null || $scope.command.minSize === null || $scope.command.stack == null || $scope.command.scalingConfigurations.securityGroupId === null || $scope.command.scalingConfigurations.keyPairName === null || $scope.command.scalingConfigurations.imageId === null || $scope.command.credentials === null ||  $scope.command.scalingConfigurations.instanceType === null ) {
+          return true
         } else {
-          return false;
+          return false
         }
       };
     },

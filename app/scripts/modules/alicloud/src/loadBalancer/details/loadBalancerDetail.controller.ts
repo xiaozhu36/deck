@@ -70,6 +70,7 @@ angular
             if (details.length) {
               $scope.loadBalancer.elb = details[0];
               $scope.loadBalancer.account = loadBalancer.accountId;
+
             }
           });
         }
