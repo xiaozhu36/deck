@@ -160,7 +160,7 @@ angular
         }
 
         if (!instanceSummary) {
-          $scope.instanceIdNotFound = instance.instanceId;
+          $scope.instanceIdNotFound = instance.attributes.instanceId;
           $scope.state.loading = false;
         }
 

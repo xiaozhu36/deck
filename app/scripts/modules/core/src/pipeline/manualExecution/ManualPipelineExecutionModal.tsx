@@ -3,12 +3,12 @@ import * as React from 'react';
 import { Formik, Form } from 'formik';
 import { Modal } from 'react-bootstrap';
 import { Observable, Subject } from 'rxjs';
-import { assign, clone, compact, extend, get, head, uniq, isArray } from 'lodash';
+import { assign, clone, compact, extend, get, head, uniq, isArray, pickBy } from 'lodash';
 
 import { SubmitButton, ModalClose } from 'core/modal';
 import { Application } from 'core/application';
 import { AuthenticationService } from 'core/authentication';
-import { buildValidators, IModalComponentProps, ReactModal, SpinFormik } from 'core/presentation';
+import { buildValidators, IModalComponentProps, ReactModal, SpinFormik, Markdown } from 'core/presentation';
 import {
   IExecution,
   IExecutionTrigger,
@@ -53,6 +53,8 @@ export interface IManualExecutionModalState {
   triggerComponent?: React.ComponentType<ITriggerTemplateComponentProps>;
   triggers: ITrigger[];
 }
+
+const TRIGGER_FIELDS_TO_EXCLUDE = ['correlationId', 'eventId', 'executionId'];
 
 export class ManualExecutionModal extends React.Component<IManualExecutionModalProps, IManualExecutionModalState> {
   private formikRef = React.createRef<Formik<any>>();
@@ -256,12 +258,15 @@ export class ManualExecutionModal extends React.Component<IManualExecutionModalP
     const triggers = this.formatTriggers(pipeline && pipeline.triggers ? pipeline.triggers : []);
     let trigger: ITrigger;
     if (this.props.trigger) {
-      trigger = clone(this.props.trigger);
+      // Certain fields like correlationId will cause unexepcted behavior if used to trigger
+      // a different execution, others are just left unused. Let's exclude them.
+      trigger = pickBy(this.props.trigger, (_, key) => !TRIGGER_FIELDS_TO_EXCLUDE.includes(key));
+
       if (trigger.type === 'manual' && triggers.length) {
         trigger.type = head(triggers).type;
       }
       // Find the pipeline.trigger that matches trigger (the trigger from the execution being re-run)
-      const matchingTrigger = pipeline.triggers.find(t =>
+      const matchingTrigger = (pipeline.triggers || []).find(t =>
         Object.keys(t)
           .filter(k => k !== 'description')
           .every(k => get(t, k) === get(this.props.trigger, k)),
@@ -359,6 +364,16 @@ export class ManualExecutionModal extends React.Component<IManualExecutionModalP
                 )}
                 {currentPipelineExecutions.length > 0 && (
                   <CurrentlyRunningExecutions currentlyRunningExecutions={currentPipelineExecutions} />
+                )}
+                {pipeline && pipeline.manualStartAlert && (
+                  <Markdown
+                    className={`alert alert-${
+                      ['danger', 'warning', 'info'].includes(pipeline.manualStartAlert.type)
+                        ? pipeline.manualStartAlert.type
+                        : 'warning'
+                    }`}
+                    message={pipeline.manualStartAlert.message}
+                  />
                 )}
                 {triggers && triggers.length > 0 && (
                   <Triggers
